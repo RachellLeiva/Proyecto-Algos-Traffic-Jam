@@ -1,33 +1,62 @@
 // importar el módulo readline y crear una interfaz para leer desde consola
 
 
-const readline = require("readline");
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout
-});
+function iniciar() {
+  const entrada = document.getElementById("tableroInput").value.trim();
+  const salida = document.getElementById("salidaInput").value.trim().split(",").map(Number);
+  const algoritmo = document.getElementById("algoritmo").value;
 
+  if (!entrada || salida.length !== 2) {
+    alert("⚠️ Ingresa el tablero y las coordenadas de salida correctamente");
+    return;
+  }
 
-rl.question("Escribe filas separadas por ';' y caracteres por ',': ", function(entrada) {
-  const matriz = entrada.split(";").map(fila =>
-    fila.split(",")
-  );
+  const matriz = entrada.split(";").map(fila => fila.split(","));
+  const [x, y] = salida;
 
-  console.table(matriz);
+  mostrarMatriz(matriz);
 
+  if (algoritmo === "DFS") {
+    const camino = DFS(matriz, x, y, []);
+    if (camino) {
+      animarCamino(camino);
+    } else {
+      document.getElementById("acciones").textContent = "❌ No se encontró solución";
+    }
+  } else {
+    alert("⚠️ Backtracking aún no implementado");
+  }
+}
 
-  // la segunda pregunta
-  rl.question("Escribe 2 números separados por coma: ", function(numeros) {
-    const [x, y] = numeros.split(",").map(Number);
-    //console.log(encontrar(matriz,x,y))
-    console.log(DFS(matriz,x,y))
-    rl.close();
-  });
-});
-
-//          node script.js  -,-,-,-,>,.,.;.,.,.,.,.,.,.;|,.,.,-,-,-,>;|,.,.,.,.,.,.;v,.,-,-,-,B,.;.,.,.,.,.,.,.;-,-,-,-,>,.,.
+  
+//          node script.js  -,-,-,-,>,.,.;.,.,.,.,.,.,.;|,.,.,-,-,-,>;|,.,.,.,.,.,.;v,.,-,-,-,B,.;.,.,.,.,.,.,.;-,-,-,-,>,.,. .,.,|;-,B,v;.,.,.;.,-,>
 
 //-------------------------------------------------------------------------------------------------------------------//
+
+
+
+function mostrarMatriz(matriz) {
+  const contenedor = document.getElementById("tablero");
+  contenedor.innerHTML = "";
+  const tabla = document.createElement("table");
+
+  matriz.forEach(fila => {
+    const tr = document.createElement("tr");
+    fila.forEach(celda => {
+      const td = document.createElement("td");
+      td.textContent = celda;
+      td.className =
+        celda === "B" ? "carroB" :
+        celda === ">" || celda === "-" ? "carroH" :
+        celda === "v" || celda === "|" ? "carroV" :
+        "vacio";
+      tr.appendChild(td);
+    });
+    tabla.appendChild(tr);
+  });
+
+  contenedor.appendChild(tabla);
+}
 
 
 //verificar si la salida esta en linea con B ( si no esta en linea con B no podra salir y asi no se hace todo el trabajo)
@@ -45,7 +74,6 @@ function encontrar(matriz,x,y){
     return false
   }
 }
-
 
 //mueve a la derecha pidiendo la cabeza
 function mover_derecha(matriz,x,y){
@@ -204,13 +232,6 @@ function mover_arriba(matriz,x,y){
   }
 }
 
-//-------------------------------------------------------------------------------------------------------------------//
-
-//          node script.js  -,-,-,-,>,.,.;.,.,.,.,.,.,.;|,.,.,-,-,-,>;|,.,.,.,.,.,.;v,.,-,-,-,B,.;.,.,.,.,.,.,.;-,-,-,-,>,.,.
-// original -,-,-,-,>,.,.;.,.,.,.,.,.,.;|,.,.,-,-,-,>;|,.,.,.,.,.,.;v,.,-,-,-,B,.;.,.,.,.,.,.,.;-,-,-,-,>,.,.
-
-//-------------------------------------------------------------------------------------------------------------------//
-
 
 
 
@@ -240,55 +261,123 @@ function buscar_carros(matriz,carros = null){     //  para tener una lista con l
   return carros
 }
 
+
 function copiarMatriz(matriz) {           //para copiar la matriz y guardarla luego ( si se hace matriz1 = matriz2 solo guarda en memoria el puntero(feo js))
   return matriz.map(fila => [...fila]); 
 }
 
 
-
-
-
-
-
-
-
-function DFS(matriz,x,y,matrizTemporal = [], camino = []){
-  console.table(matriz)
-  carros = buscar_carros(matriz);
-  if (JSON.stringify(matriz) === JSON.stringify(matrizTemporal)) {    //si no hubo un cambio
-    return
-  }
-  if(carros[0][1]==x && carros[0][2]==y){  //llego a la salida el carro B
-    console.log("llegue aca")
-    return camino
-  }
-  if (camino.some(estado => JSON.stringify(estado) === JSON.stringify(matriz))) { //si ya se verifico(evita bucles)
-    return;
-  }
-  if(matrizTemporal.length === 0)
-    matrizTemporal = copiarMatriz(matriz)
-  for (carro of carros){
-    console.log(carro)
-    camino.push(copiarMatriz(matriz));
-    matrizTemporal = copiarMatriz(matriz);
-    if(carro[0]== "B"||carro[0]== ">"){
-      matriz_movimientosIzquierda = mover_izquierda(matriz,carro[1],carro[2]);
-      //console.log("primer matriz:",matriz_movimientosIzquierda)
-      matriz_movimientosDerecha = mover_derecha(matriz,carro[1],carro[2]);
-      //console.log("primer matriz:",matriz_movimientosDerecha)
-      DFS(matriz_movimientosIzquierda,x,y,matrizTemporal,camino)
-      DFS(matriz_movimientosDerecha,x,y,matrizTemporal,camino)
-    }
-    else{
-      matriz_movimientosArriba = mover_arriba(matriz,carro[1],carro[2]);
-      matriz_movimientosAbajo = mover_abajo(matriz,carro[1],carro[2]);
-      DFS(matriz_movimientosArriba,x,y,matrizTemporal,camino)
-      DFS(matriz_movimientosAbajo,x,y,matrizTemporal,camino)
+function encontrarB(matriz){
+  for(let i=0;i<matriz.length;i++){
+    for(let j=0;j<matriz[0].length;j++){
+      if(matriz[i][j] === "B"){
+        return [i, j];
+      }
     }
   }
-  camino.pop();
-
 }
+
+
+ // DFS
+function DFS(matriz, x, y, camino = [], visitados = new Set()) {
+  // Evitar bucles
+  const hash = JSON.stringify(matriz);
+  if (visitados.has(hash)) {
+    return null; 
+  }
+
+  visitados.add(hash);
+
+  // si el carro B llego a la salida
+  const carros = buscar_carros(matriz);
+  if (carros[0][1] == x && carros[0][2] == y) {
+    camino.push(copiarMatriz(matriz)); // guardar el ultimo estado tambien
+    return camino; 
+  }
+
+
+  camino.push(copiarMatriz(matriz));
+
+  for (carro of carros) {
+    if (carro[0] == "B" || carro[0] == ">") {
+      const matrizIzq = mover_izquierda(copiarMatriz(matriz), carro[1], carro[2]);
+      const matrizDer = mover_derecha(copiarMatriz(matriz), carro[1], carro[2]);
+      if (JSON.stringify(matrizIzq) !== JSON.stringify(matriz)) {
+        const res = DFS(matrizIzq, x, y, [...camino], visitados); // para copiar el camino para ramas diferentes ( lo de ...camino es para que sea diferente ( el tema de punteros))
+        if (res)
+           return res;
+      }
+      if (JSON.stringify(matrizDer) !== JSON.stringify(matriz)) {
+        const res = DFS(matrizDer, x, y, [...camino], visitados);
+        if (res) 
+          return res;
+      }
+    } 
+    else {
+      const matrizArr = mover_arriba(copiarMatriz(matriz), carro[1], carro[2]);
+      const matrizAba = mover_abajo(copiarMatriz(matriz), carro[1], carro[2]);
+      if (JSON.stringify(matrizArr) !== JSON.stringify(matriz)) {
+        const res = DFS(matrizArr, x, y, [...camino], visitados);
+        if (res) 
+          return res;
+      }
+
+      if (JSON.stringify(matrizAba) !== JSON.stringify(matriz)) {
+        const res = DFS(matrizAba, x, y, [...camino], visitados);
+        if (res) 
+          return res;
+      }
+    }
+  }
+  return null;
+}
+
+
+
+
+
+
+
+
+//Aca empezare A*
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//mostrar el camino
+function animarCamino(camino) {
+  let i = 0;
+  const acciones = document.getElementById("acciones");
+  acciones.textContent = "🔄 Resolviendo...";
+
+  function paso() {
+    if (i < camino.length) {
+      mostrarMatriz(camino[i]);
+      acciones.textContent = `Paso ${i + 1} de ${camino.length}`;
+      i++;
+      setTimeout(paso, 800); // velocidad de animación (ms)
+      } else {
+        acciones.textContent = "✅ ¡Carro objetivo llegó a la salida!";
+      }
+    }
+    paso();
+  }
+document.getElementById("resolverBtn").addEventListener("click", iniciar);
+
+
+
+
 //          node script.js  .,.,|;-,B,v;.,.,.;.,-,>
 // original -,-,-,-,>,.,.;.,.,.,.,.,.,.;|,.,.,-,-,-,>;|,.,.,.,.,.,.;v,.,-,-,-,B,.;.,.,.,.,.,.,.;-,-,-,-,>,.,.
 
