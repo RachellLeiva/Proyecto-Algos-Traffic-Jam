@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>🚗 Traffic Jam Solver</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <header>
+    <h1>🚦 Traffic Jam Solver</h1>
+    <p>Simulador de <strong>Traffic Jam</strong> con <em>Backtracking</em> y <em>DFS</em></p>
+  </header>
+
+  <main>
+    <!-- Entrada del tablero -->
+    <section id="entrada">
+      <h2>🧩 Ingresar tablero</h2>
+      <p>
+        Usa <code>;</code> para separar filas y <code>,</code> para separar columnas.  
+        Máximo: <strong>12×12</strong>
+      </p>
+
+      <textarea id="tableroInput" rows="6" cols="60" placeholder="-,-,-,>,.,.;.,.,.,.,.,.;v,.,-,B,.,."></textarea>
+
+      <div class="fila">
+        <label for="salidaInput">📤 Coordenadas de salida (x,y):</label>
+        <input type="text" id="salidaInput" placeholder="0,5" />
+      </div>
+
+      <div class="fila">
+        <label for="algoritmo">🧠 Algoritmo:</label>
+        <select id="algoritmo">
+          <option value="DFS">DFS</option>
+          <option value="Backtracking">Backtracking</option>
+        </select>
+      </div>
+
+      <button id="resolverBtn">Resolver tablero</button>
+    </section>
+
+    <!-- Visualización del tablero -->
+    <section id="tableroContainer">
+      <h2>📊 Tablero</h2>
+      <div id="tablero"></div>
+    </section>
+
+    <!-- Secuencia de acciones -->
+    <section id="resultado">
+      <h2>📜 Secuencia de acciones</h2>
+      <div id="acciones"></div>
+    </section>
+  </main>
+
+  <footer>
+    <p>Proyecto 1 – Análisis de Algoritmos – Traffic Jam 🚗</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
