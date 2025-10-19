@@ -11,7 +11,12 @@ function iniciar() {
     return;
   }
 
-  const matriz = entrada.split(";").map(fila => fila.split(","));
+  const matriz = entrada
+    .split(";")
+    .map(fila => fila.trim())             // elimina espacios y saltos extra en cada fila
+    .filter(fila => fila.length > 0)      // evita filas vacías si el usuario dejó un ; al final
+    .map(fila => fila.split(",").map(c => c.trim())); // limpia cada celda
+
   const [x, y] = salida;
 
   mostrarMatriz(matriz);
@@ -23,10 +28,18 @@ function iniciar() {
     } else {
       document.getElementById("acciones").textContent = "❌ No se encontró solución";
     }
+  } else if (algoritmo === "A*" || algoritmo === "Aestrella") {
+    const camino = Aestrella(matriz, x, y);
+    if (camino) {
+      animarCamino(camino);
+    } else {
+      document.getElementById("acciones").textContent = "❌ No se encontró solución con A*";
+    }
   } else {
-    alert("⚠️ Backtracking aún no implementado");
+    alert("⚠️ Algoritmo no reconocido");
   }
 }
+
 
   
 //          node script.js  -,-,-,-,>,.,.;.,.,.,.,.,.,.;|,.,.,-,-,-,>;|,.,.,.,.,.,.;v,.,-,-,-,B,.;.,.,.,.,.,.,.;-,-,-,-,>,.,. .,.,|;-,B,v;.,.,.;.,-,>
@@ -342,10 +355,161 @@ function DFS(matriz, x, y, camino = [], visitados = new Set()) {
 //Aca empezare A*
 
 
+function matrizAHash(m) {
+  return JSON.stringify(m);
+}
 
 
+function Aestrella(matriz, x, y) {
+  const listaAbierta = [];
+  const listaCerrada = new Set();
 
+  // f, g, h, camino
+  listaAbierta.push([copiarMatriz(matriz), 0, 0, 0, [copiarMatriz(matriz)]]); // inicializar con camino inicial
 
+  while (listaAbierta.length != 0) {
+    let mejorF = Infinity;
+    let pos;
+    let g = 0;
+    let indiceMejor = 0;
+    let caminoActual = [];
+
+    for (let i = 0; i < listaAbierta.length; i++) {
+      if (listaAbierta[i][1] < mejorF) {
+        mejorF = listaAbierta[i][1];
+        pos = copiarMatriz(listaAbierta[i][0]);
+        g = listaAbierta[i][2];
+        indiceMejor = i;
+        caminoActual = listaAbierta[i][4]; // recuperamos el camino que llevó hasta aquí
+      }
+    }
+
+    listaCerrada.add(JSON.stringify(listaAbierta[indiceMejor][0]));
+    listaAbierta.splice(indiceMejor, 1);
+
+    const carros = buscar_carros(pos);
+
+    const [l, p] = encontrarB(pos);
+    if (l == x && p == y) {
+      return caminoActual; // ✅ ahora devuelve el camino completo
+    }
+
+    for (carro of carros) {
+      if (carro[0] == "B" || carro[0] == ">") {
+        const matrizIzq = mover_izquierda(copiarMatriz(pos), carro[1], carro[2]);
+        const matrizDer = mover_derecha(copiarMatriz(pos), carro[1], carro[2]);
+
+        // ================= IZQUIERDA =================
+        if (JSON.stringify(matrizIzq) !== JSON.stringify(pos)) {
+          if (!listaCerrada.has(JSON.stringify(matrizIzq))) {
+             listaCerrada.add(JSON.stringify(matrizIzq)); 
+            let heuristica = 1;
+            let [i, j] = encontrarB(matrizIzq);
+            while (j < y) {
+              if (matrizIzq[i][j] == ".") {
+                heuristica += 1;
+              } else {
+                heuristica += 2;
+              }
+              j += 1;
+            }
+            let gx = g + 1;
+            let f = gx + heuristica;
+            listaAbierta.push([
+              copiarMatriz(matrizIzq),
+              f,
+              gx,
+              heuristica,
+              [...caminoActual, copiarMatriz(matrizIzq)]
+            ]);
+          }
+        }
+
+        // ================= DERECHA =================
+        if (JSON.stringify(matrizDer) !== JSON.stringify(pos)) {
+          if (!listaCerrada.has(JSON.stringify(matrizDer))) {
+             listaCerrada.add(JSON.stringify(matrizDer)); 
+            let heuristica = 1;
+            let [i, j] = encontrarB(matrizDer);
+            while (j < y) {
+              if (matrizDer[i][j] == ".") {
+                heuristica += 1;
+              } else {
+                heuristica += 2;
+              }
+              j += 1;
+            }
+            let gx = g + 1;
+            let f = gx + heuristica;
+            listaAbierta.push([
+              copiarMatriz(matrizDer),
+              f,
+              gx,
+              heuristica,
+              [...caminoActual, copiarMatriz(matrizDer)]
+            ]);
+          }
+        }
+      } else {
+        const matrizArr = mover_arriba(copiarMatriz(pos), carro[1], carro[2]);
+        const matrizAba = mover_abajo(copiarMatriz(pos), carro[1], carro[2]);
+
+        // ================= ARRIBA =================
+        if (JSON.stringify(matrizArr) !== JSON.stringify(pos)) {
+          if (!listaCerrada.has(JSON.stringify(matrizArr))) {
+            listaCerrada.add(JSON.stringify(matrizArr)); 
+            let heuristica = 1;
+            let [i, j] = encontrarB(matrizArr);
+            while (j < y) {
+              if (matrizArr[i][j] == ".") {
+                heuristica += 1;
+              } else {
+                heuristica += 2;
+              }
+              j += 1;
+            }
+            let gx = g + 1;
+            let f = gx + heuristica;
+            listaAbierta.push([
+              copiarMatriz(matrizArr),
+              f,
+              gx,
+              heuristica,
+              [...caminoActual, copiarMatriz(matrizArr)]
+            ]);
+          }
+        }
+
+        // ================= ABAJO =================
+        if (JSON.stringify(matrizAba) !== JSON.stringify(pos)) {
+          if (!listaCerrada.has(JSON.stringify(matrizAba))) {
+             listaCerrada.add(JSON.stringify(matrizAba)); 
+            let heuristica = 1;
+            let [i, j] = encontrarB(matrizAba);
+            while (j < y) {
+              if (matrizAba[i][j] == ".") {
+                heuristica += 1;
+              } else {
+                heuristica += 2;
+              }
+              j += 1;
+            }
+            let gx = g + 1;
+            let f = gx + heuristica;
+            listaAbierta.push([
+              copiarMatriz(matrizAba),
+              f,
+              gx,
+              heuristica,
+              [...caminoActual, copiarMatriz(matrizAba)]
+            ]);
+          }
+        }
+      }
+    }
+  }
+  return null; // ❌ si no hay camino
+}
 
 
 
@@ -366,7 +530,7 @@ function animarCamino(camino) {
       mostrarMatriz(camino[i]);
       acciones.textContent = `Paso ${i + 1} de ${camino.length}`;
       i++;
-      setTimeout(paso, 800); // velocidad de animación (ms)
+      setTimeout(paso, 400); // velocidad de animación (ms)
       } else {
         acciones.textContent = "✅ ¡Carro objetivo llegó a la salida!";
       }
