@@ -2,7 +2,7 @@
  * Función principal que inicia la ejecución del algoritmo de búsqueda seleccionado.
  * 
  * Obtiene los valores de entrada del usuario, valida los datos, procesa la matriz del tablero,
- * ejecuta el algoritmo seleccionado (DFS, BFS o A*) y muestra los resultados con métricas de rendimiento.
+ * ejecuta el algoritmo seleccionado (DFS, BFS, A* o Backtracking) y muestra los resultados con métricas de rendimiento.
  * 
  * @function
  * @name iniciar
@@ -30,9 +30,16 @@
  * @requires DFS Función de búsqueda en profundidad
  * @requires BFS Función de búsqueda en anchura  
  * @requires Aestrella Función de algoritmo A*
+ * @requires Backtracking Función de backtracking para solución óptima
  * @requires mostrarMatriz Función para visualizar el tablero
  * @requires animarCamino Función para animar la solución encontrada
  */
+
+// Variables globales para backtracking
+let mejorCamino = null;        // Almacena la mejor solución encontrada
+let minMovimientos = Infinity; // Guarda el número mínimo de movimientos encontrado
+let contadorEstadosBacktracking = 0; // Cuenta todos los estados explorados en backtracking
+
 function iniciar() {
   // Obtener y validar entradas del usuario
   const entrada = document.getElementById("tableroInput").value.trim();
@@ -58,7 +65,7 @@ function iniciar() {
   const filas = matriz.length;
   const columnas = matriz[0]?.length || 0;
 
-  //Validación de tamaño del tablero
+  // Validación de tamaño del tablero 
   if (filas > 12 || columnas > 12) {
     alert(`⚠️ El tablero es demasiado grande (${filas}×${columnas}). El máximo permitido es 12×12.`);
     return;
@@ -66,7 +73,7 @@ function iniciar() {
 
   mostrarMatriz(matriz);
 
-  //variables de métricas
+  // Variables para métricas de rendimiento
   let inicio = performance.now();
   let fin = 0;
   let tiempo = 0;
@@ -75,23 +82,36 @@ function iniciar() {
   let camino = null;
 
   // Ejecutar el algoritmo seleccionado
-  if (algoritmo === "DFS(Backtracking)") {
+  if (algoritmo === "DFS") {
+    
     const visitados = new Set();
     camino = DFS(matriz, x, y, [], visitados);
     estados = visitados.size;
   } else if (algoritmo === "BFS") {
+    
     const resultado = BFS(matriz, x, y);
     camino = resultado ? resultado.camino : null;
     estados = resultado ? resultado.estados : 0;
   } else if (algoritmo === "A*" || algoritmo === "Aestrella") {
+   
     camino = Aestrella(matriz, x, y);
-    estados = camino ? camino.length : 0; // aproximación: cada estado visitado
+    estados = camino ? camino.length : 0;
+  } else if (algoritmo === "Backtracking") {
+   
+    mejorCamino = null;           
+    minMovimientos = Infinity;       
+    contadorEstadosBacktracking = 0; 
+    const visitados = new Set();  
+    
+    Backtracking(matriz, x, y, [], visitados);
+    camino = mejorCamino;
+    estados = contadorEstadosBacktracking; 
   } else {
     alert("⚠️ Algoritmo no reconocido");
     return;
   }
 
-  // Calcular métricas de rendimiento
+  // Calcula métricas de rendimiento
   fin = performance.now();
   tiempo = (fin - inicio).toFixed(2);
   movimientos = camino ? camino.length - 1 : 0;
@@ -103,7 +123,7 @@ function iniciar() {
     acciones.textContent = `❌ No se encontró solución con ${algoritmo}`;
   }
 
-  // Log de métricas en consola para debugging
+  // Log de métricas en consola 
   console.log(`✅ Algoritmo: ${algoritmo}`);
   console.log(`⏱ Tiempo: ${tiempo} ms`);
   console.log(`📊 Estados explorados: ${estados}`);
@@ -1209,6 +1229,123 @@ function generarTodosLosMovimientos(matriz) {
 }
 
 /**
+ * Función de backtracking para resolver el problema del traffic jam.
+ * Explora sistemáticamente todos los movimientos posibles hasta encontrar la solución óptima.
+ * 
+ * @function
+ * @name Backtracking
+ * @param {Array.<Array.<string>>} matriz - Matriz representando el estado actual del tablero
+ * @param {number} x - Coordenada X (fila) de la salida objetivo
+ * @param {number} y - Coordenada Y (columna) de la salida objetivo  
+ * @param {Array.<Array.<Array.<string>>>} [caminoActual=[]] - Camino de estados visitados hasta el momento
+ * @param {Set} [visitados=new Set()] - Conjunto de estados ya explorados (hashed)
+ * @returns {void}
+ * 
+ * @example
+ * // Uso básico:
+ * Backtracking(matrizInicial, 2, 5, [], new Set());
+ * 
+ * @description
+ * Esta función implementa un algoritmo de backtracking que:
+ * 1. Cuenta cada estado explorado globalmente
+ * 2. Evita ciclos mediante un conjunto de estados visitados
+ * 3. Poda ramas que exceden la mejor solución encontrada
+ * 4. Encuentra la solución con mínimo número de movimientos
+ * 5. Limita la profundidad máxima para evitar stack overflow
+ * 
+ * @see encontrarB
+ * @see buscar_carros
+ * @see mover_derecha
+ * @see mover_izquierda  
+ * @see mover_abajo
+ * @see mover_arriba
+ * @see copiarMatriz
+ * 
+ */
+function Backtracking(matriz, x, y, caminoActual = [], visitados = new Set()) {
+    // Contar este estado en el contador global
+    contadorEstadosBacktracking++; 
+    
+    // evitar ciclos
+    let hash = JSON.stringify(matriz);
+    if (visitados.has(hash)) {
+        return;
+    }
+    visitados.add(hash);
+    
+    //si ya hay una solución mejor para
+    if (caminoActual.length >= minMovimientos) {
+        return;
+    }
+    
+    // Condición si el carro B llegó a la salida
+    let carroB = encontrarB(matriz);
+    if (carroB[0] == x && carroB[1] == y) {
+        let caminoFinal = [...caminoActual, copiarMatriz(matriz)];
+        let numMovimientos = caminoFinal.length - 1;
+        
+        // Actualizar la mejor solución encontrada
+        if (numMovimientos < minMovimientos) {
+            minMovimientos = numMovimientos;
+            mejorCamino = caminoFinal;
+            console.log("¡Encontré una solución con " + numMovimientos + " movimientos!");
+        }
+        return;
+    }
+    
+    // Límite de profundidad para evitar overflow
+    if (caminoActual.length > 100) {
+        return;
+    }
+    
+    // Agregar este estado al camino actual
+    caminoActual.push(copiarMatriz(matriz));
+    
+    // Probar mover todos los carros en todas direcciones posibles
+    let carros = buscar_carros(matriz);
+    
+    for (let i = 0; i < carros.length; i++) {
+        let carro = carros[i];
+        let tipo = carro[0];
+        let fila = carro[1];
+        let columna = carro[2];
+        
+        // Movimientos para carros horizontales 
+        if (tipo == "B" || tipo == ">") {
+            // Intentar mover a la derecha
+            let matrizDer = mover_derecha(copiarMatriz(matriz), fila, columna);
+            if (JSON.stringify(matrizDer) != JSON.stringify(matriz)) {
+                Backtracking(matrizDer, x, y, [...caminoActual], new Set(visitados));
+            }
+            
+            // Intentar mover a la izquierda  
+            let matrizIzq = mover_izquierda(copiarMatriz(matriz), fila, columna);
+            if (JSON.stringify(matrizIzq) != JSON.stringify(matriz)) {
+                Backtracking(matrizIzq, x, y, [...caminoActual], new Set(visitados));
+            }
+        }
+        
+        // Movimientos para carros verticales 
+        if (tipo == "v") {
+            // Intentar mover abajo
+            let matrizAbajo = mover_abajo(copiarMatriz(matriz), fila, columna);
+            if (JSON.stringify(matrizAbajo) != JSON.stringify(matriz)) {
+                Backtracking(matrizAbajo, x, y, [...caminoActual], new Set(visitados));
+            }
+            
+            // Intentar mover arriba
+            let matrizArriba = mover_arriba(copiarMatriz(matriz), fila, columna);
+            if (JSON.stringify(matrizArriba) != JSON.stringify(matriz)) {
+                Backtracking(matrizArriba, x, y, [...caminoActual], new Set(visitados));
+            }
+        }
+    }
+    
+    
+    caminoActual.pop();
+}
+
+/**
  * Anima visualmente la secuencia de pasos de la solución encontrada.
  * Muestra cada estado del camino con una descripción textual de los movimientos.
  * 
@@ -1266,6 +1403,8 @@ function animarCamino(camino, tiempo, estados, movimientos) {
 
   paso();
 }
+
+
 
 /**
  * Event listener para el botón de resolver.

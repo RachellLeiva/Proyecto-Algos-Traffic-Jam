@@ -251,7 +251,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="script.js.html">script.js</a>, <a href="script.js.html#line813">line 813</a>
+        <a href="script.js.html">script.js</a>, <a href="script.js.html#line832">line 832</a>
     </li></ul></dd>
     
 
@@ -475,7 +475,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="script.js.html">script.js</a>, <a href="script.js.html#line1029">line 1029</a>
+        <a href="script.js.html">script.js</a>, <a href="script.js.html#line1048">line 1048</a>
     </li></ul></dd>
     
 
@@ -601,6 +601,349 @@
     <h5>Example</h5>
     
     <pre class="prettyprint"><code>// Ejemplo de uso:const matrizInicial = [  [".", "B", "-", "."],  [".", ".", ".", "."]];const resultado = BFS(matrizInicial, 0, 3);if (resultado) {  console.log("Solución en", resultado.profundidad, "movimientos");  console.log("Estados explorados:", resultado.estados);}</code></pre>
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="Backtracking"><span class="type-signature"></span>Backtracking<span class="signature">(matriz, x, y, caminoActual<span class="signature-attributes">opt</span>, visitados<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {void}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Esta función implementa un algoritmo de backtracking que:1. Cuenta cada estado explorado globalmente2. Evita ciclos mediante un conjunto de estados visitados3. Poda ramas que exceden la mejor solución encontrada4. Encuentra la solución con mínimo número de movimientos5. Limita la profundidad máxima para evitar stack overflow
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>matriz</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array.&lt;Array.&lt;string>></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">Matriz representando el estado actual del tablero</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>x</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">Coordenada X (fila) de la salida objetivo</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>y</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">Coordenada Y (columna) de la salida objetivo</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>caminoActual</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array.&lt;Array.&lt;Array.&lt;string>>></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    []
+                
+                </td>
+            
+
+            <td class="description last">Camino de estados visitados hasta el momento</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>visitados</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Set</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    new Set()
+                
+                </td>
+            
+
+            <td class="description last">Conjunto de estados ya explorados (hashed)</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="script.js.html">script.js</a>, <a href="script.js.html#line1231">line 1231</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+    <dt class="tag-see">See:</dt>
+    <dd class="tag-see">
+        <ul>
+            <li><a href="global.html#encontrarB">encontrarB</a></li>
+        
+            <li><a href="global.html#buscar_carros">buscar_carros</a></li>
+        
+            <li><a href="global.html#mover_derecha">mover_derecha</a></li>
+        
+            <li><a href="global.html#mover_izquierda">mover_izquierda</a></li>
+        
+            <li><a href="global.html#mover_abajo">mover_abajo</a></li>
+        
+            <li><a href="global.html#mover_arriba">mover_arriba</a></li>
+        
+            <li><a href="global.html#copiarMatriz">copiarMatriz</a></li>
+        </ul>
+    </dd>
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">void</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>// Uso básico:Backtracking(matrizInicial, 2, 5, [], new Set());</code></pre>
 
 
 
@@ -875,7 +1218,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="script.js.html">script.js</a>, <a href="script.js.html#line673">line 673</a>
+        <a href="script.js.html">script.js</a>, <a href="script.js.html#line692">line 692</a>
     </li></ul></dd>
     
 
@@ -1151,7 +1494,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="script.js.html">script.js</a>, <a href="script.js.html#line1212">line 1212</a>
+        <a href="script.js.html">script.js</a>, <a href="script.js.html#line1348">line 1348</a>
     </li></ul></dd>
     
 
@@ -1378,7 +1721,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="script.js.html">script.js</a>, <a href="script.js.html#line482">line 482</a>
+        <a href="script.js.html">script.js</a>, <a href="script.js.html#line502">line 502</a>
     </li></ul></dd>
     
 
@@ -1542,7 +1885,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="script.js.html">script.js</a>, <a href="script.js.html#line537">line 537</a>
+        <a href="script.js.html">script.js</a>, <a href="script.js.html#line557">line 557</a>
     </li></ul></dd>
     
 
@@ -1729,7 +2072,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="script.js.html">script.js</a>, <a href="script.js.html#line603">line 603</a>
+        <a href="script.js.html">script.js</a>, <a href="script.js.html#line622">line 622</a>
     </li></ul></dd>
     
 
@@ -1959,7 +2302,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="script.js.html">script.js</a>, <a href="script.js.html#line166">line 166</a>
+        <a href="script.js.html">script.js</a>, <a href="script.js.html#line186">line 186</a>
     </li></ul></dd>
     
 
@@ -2030,7 +2373,7 @@
 
 
 <div class="description">
-    Función utilitaria para:- Localizar rápidamente la posición del carro principal- Verificar si "B" existe en el tablero- Inicializar algoritmos de búsqueda desde la posición correcta
+    Función utilitaria para:- Localizar rápidamente la posición del carro principal- Verificar si B existe en el tablero- Inicializar algoritmos de búsqueda desde la posición correcta
 </div>
 
 
@@ -2123,7 +2466,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="script.js.html">script.js</a>, <a href="script.js.html#line567">line 567</a>
+        <a href="script.js.html">script.js</a>, <a href="script.js.html#line586">line 586</a>
     </li></ul></dd>
     
 
@@ -2133,7 +2476,7 @@
     <dt class="tag-see">See:</dt>
     <dd class="tag-see">
         <ul>
-            <li>buscar_carros Para obtener todos los carros incluyendo "B"</li>
+            <li>buscar_carros Para obtener todos los carros incluyendo B</li>
         </ul>
     </dd>
     
@@ -2159,7 +2502,7 @@
 
         
 <div class="param-desc">
-    Array [fila, columna] con la posición de "B", o null si no se encuentra
+    Array [fila, columna] con la posición de B, o null si no se encuentra
 </div>
 
 
@@ -2297,7 +2640,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="script.js.html">script.js</a>, <a href="script.js.html#line1147">line 1147</a>
+        <a href="script.js.html">script.js</a>, <a href="script.js.html#line1166">line 1166</a>
     </li></ul></dd>
     
 
@@ -2441,6 +2784,8 @@
     <li>module:BFS</li>
 
     <li>module:Aestrella</li>
+
+    <li>module:Backtracking</li>
 
     <li>module:mostrarMatriz</li>
 
@@ -2623,7 +2968,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="script.js.html">script.js</a>, <a href="script.js.html#line787">line 787</a>
+        <a href="script.js.html">script.js</a>, <a href="script.js.html#line806">line 806</a>
     </li></ul></dd>
     
 
@@ -2794,7 +3139,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="script.js.html">script.js</a>, <a href="script.js.html#line118">line 118</a>
+        <a href="script.js.html">script.js</a>, <a href="script.js.html#line138">line 138</a>
     </li></ul></dd>
     
 
@@ -3000,7 +3345,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="script.js.html">script.js</a>, <a href="script.js.html#line360">line 360</a>
+        <a href="script.js.html">script.js</a>, <a href="script.js.html#line380">line 380</a>
     </li></ul></dd>
     
 
@@ -3217,7 +3562,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="script.js.html">script.js</a>, <a href="script.js.html#line417">line 417</a>
+        <a href="script.js.html">script.js</a>, <a href="script.js.html#line437">line 437</a>
     </li></ul></dd>
     
 
@@ -3434,7 +3779,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="script.js.html">script.js</a>, <a href="script.js.html#line213">line 213</a>
+        <a href="script.js.html">script.js</a>, <a href="script.js.html#line233">line 233</a>
     </li></ul></dd>
     
 
@@ -3644,7 +3989,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="script.js.html">script.js</a>, <a href="script.js.html#line288">line 288</a>
+        <a href="script.js.html">script.js</a>, <a href="script.js.html#line308">line 308</a>
     </li></ul></dd>
     
 
@@ -3717,13 +4062,13 @@
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#Aestrella">Aestrella</a></li><li><a href="global.html#BFS">BFS</a></li><li><a href="global.html#DFS">DFS</a></li><li><a href="global.html#animarCamino">animarCamino</a></li><li><a href="global.html#buscar_carros">buscar_carros</a></li><li><a href="global.html#copiarMatriz">copiarMatriz</a></li><li><a href="global.html#describirMovimiento">describirMovimiento</a></li><li><a href="global.html#encontrar">encontrar</a></li><li><a href="global.html#encontrarB">encontrarB</a></li><li><a href="global.html#generarTodosLosMovimientos">generarTodosLosMovimientos</a></li><li><a href="global.html#iniciar">iniciar</a></li><li><a href="global.html#matrizAHash">matrizAHash</a></li><li><a href="global.html#mostrarMatriz">mostrarMatriz</a></li><li><a href="global.html#mover_abajo">mover_abajo</a></li><li><a href="global.html#mover_arriba">mover_arriba</a></li><li><a href="global.html#mover_derecha">mover_derecha</a></li><li><a href="global.html#mover_izquierda">mover_izquierda</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#Aestrella">Aestrella</a></li><li><a href="global.html#BFS">BFS</a></li><li><a href="global.html#Backtracking">Backtracking</a></li><li><a href="global.html#DFS">DFS</a></li><li><a href="global.html#animarCamino">animarCamino</a></li><li><a href="global.html#buscar_carros">buscar_carros</a></li><li><a href="global.html#copiarMatriz">copiarMatriz</a></li><li><a href="global.html#describirMovimiento">describirMovimiento</a></li><li><a href="global.html#encontrar">encontrar</a></li><li><a href="global.html#encontrarB">encontrarB</a></li><li><a href="global.html#generarTodosLosMovimientos">generarTodosLosMovimientos</a></li><li><a href="global.html#iniciar">iniciar</a></li><li><a href="global.html#matrizAHash">matrizAHash</a></li><li><a href="global.html#mostrarMatriz">mostrarMatriz</a></li><li><a href="global.html#mover_abajo">mover_abajo</a></li><li><a href="global.html#mover_arriba">mover_arriba</a></li><li><a href="global.html#mover_derecha">mover_derecha</a></li><li><a href="global.html#mover_izquierda">mover_izquierda</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.5</a> on Thu Oct 23 2025 15:10:19 GMT-0600 (hora estándar central)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.5</a> on Thu Oct 23 2025 17:48:08 GMT-0600 (hora estándar central)
 </footer>
 
 <script> prettyPrint(); </script>

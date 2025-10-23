@@ -30,7 +30,7 @@
  * Función principal que inicia la ejecución del algoritmo de búsqueda seleccionado.
  * 
  * Obtiene los valores de entrada del usuario, valida los datos, procesa la matriz del tablero,
- * ejecuta el algoritmo seleccionado (DFS, BFS o A*) y muestra los resultados con métricas de rendimiento.
+ * ejecuta el algoritmo seleccionado (DFS, BFS, A* o Backtracking) y muestra los resultados con métricas de rendimiento.
  * 
  * @function
  * @name iniciar
@@ -58,9 +58,16 @@
  * @requires DFS Función de búsqueda en profundidad
  * @requires BFS Función de búsqueda en anchura  
  * @requires Aestrella Función de algoritmo A*
+ * @requires Backtracking Función de backtracking para solución óptima
  * @requires mostrarMatriz Función para visualizar el tablero
  * @requires animarCamino Función para animar la solución encontrada
  */
+
+// Variables globales para backtracking
+let mejorCamino = null;        // Almacena la mejor solución encontrada
+let minMovimientos = Infinity; // Guarda el número mínimo de movimientos encontrado
+let contadorEstadosBacktracking = 0; // Cuenta todos los estados explorados en backtracking
+
 function iniciar() {
   // Obtener y validar entradas del usuario
   const entrada = document.getElementById("tableroInput").value.trim();
@@ -86,7 +93,7 @@ function iniciar() {
   const filas = matriz.length;
   const columnas = matriz[0]?.length || 0;
 
-  // ✅ Validación de tamaño máximo del tablero
+  // Validación de tamaño del tablero 
   if (filas > 12 || columnas > 12) {
     alert(`⚠️ El tablero es demasiado grande (${filas}×${columnas}). El máximo permitido es 12×12.`);
     return;
@@ -94,7 +101,7 @@ function iniciar() {
 
   mostrarMatriz(matriz);
 
-  // 📊 VARIABLES PARA MÉTRICAS DE RENDIMIENTO
+  // Variables para métricas de rendimiento
   let inicio = performance.now();
   let fin = 0;
   let tiempo = 0;
@@ -104,22 +111,35 @@ function iniciar() {
 
   // Ejecutar el algoritmo seleccionado
   if (algoritmo === "DFS") {
+    
     const visitados = new Set();
     camino = DFS(matriz, x, y, [], visitados);
     estados = visitados.size;
   } else if (algoritmo === "BFS") {
+    
     const resultado = BFS(matriz, x, y);
     camino = resultado ? resultado.camino : null;
     estados = resultado ? resultado.estados : 0;
   } else if (algoritmo === "A*" || algoritmo === "Aestrella") {
+   
     camino = Aestrella(matriz, x, y);
-    estados = camino ? camino.length : 0; // aproximación: cada estado visitado
+    estados = camino ? camino.length : 0;
+  } else if (algoritmo === "Backtracking") {
+   
+    mejorCamino = null;           
+    minMovimientos = Infinity;       
+    contadorEstadosBacktracking = 0; 
+    const visitados = new Set();  
+    
+    Backtracking(matriz, x, y, [], visitados);
+    camino = mejorCamino;
+    estados = contadorEstadosBacktracking; 
   } else {
     alert("⚠️ Algoritmo no reconocido");
     return;
   }
 
-  // Calcular métricas de rendimiento
+  // Calcula métricas de rendimiento
   fin = performance.now();
   tiempo = (fin - inicio).toFixed(2);
   movimientos = camino ? camino.length - 1 : 0;
@@ -131,7 +151,7 @@ function iniciar() {
     acciones.textContent = `❌ No se encontró solución con ${algoritmo}`;
   }
 
-  // Log de métricas en consola para debugging
+  // Log de métricas en consola 
   console.log(`✅ Algoritmo: ${algoritmo}`);
   console.log(`⏱ Tiempo: ${tiempo} ms`);
   console.log(`📊 Estados explorados: ${estados}`);
@@ -344,7 +364,7 @@ function mover_derecha(matriz, x, y) {
  * el movimiento hacia la izquierda de manera eficiente
  */
 function mover_izquierda(matriz, x, y) {
-  // Nota: Falta declarar 'k' con let/const - se debería agregar: let k = y;
+
   if (matriz[x][y] == ">" &amp;&amp; y - 2 >= 0) {
     k = y
     y = y - 2
@@ -500,7 +520,7 @@ function mover_arriba(matriz, x, y) {
       matriz[k - 1][y] = "v"; // Nueva posición de la cabeza
       return matriz;
     } else {
-      return matriz; // No se puede mover (obstáculo)
+      return matriz; // No se puede mover 
     }
   } else {
     return matriz; // No es un carro vertical
@@ -554,7 +574,7 @@ function buscar_carros(matriz, carros = null) {
       }
     }
   }
-  // Reordenar para que "B" esté siempre primero
+  // Reordenar para que B vaya siempre primero
   let indiceB = carros.findIndex(sublista => sublista[0] === 'B');
   let temp = carros[0];
   carros[0] = carros[indiceB];
@@ -585,20 +605,19 @@ function buscar_carros(matriz, carros = null) {
  * - Permitir backtracking en algoritmos de búsqueda
  * 
  * @note
- * Sin esta función, modificar una matriz "copiada" afectaría a la original
- * debido a que JavaScript maneja arrays como referencias.
+ * Sin esta función, modificar una matriz "copiada" afectaría a la original.
  */
 function copiarMatriz(matriz) {
   return matriz.map(fila => [...fila]);
 }
 
 /**
- * Encuentra y retorna las coordenadas del carro principal "B" en la matriz.
+ * Encuentra y retorna las coordenadas del carro principal B en la matriz.
  * 
  * @function
  * @name encontrarB
  * @param {string[][]} matriz - Matriz del tablero donde buscar
- * @returns {number[]|null} Array [fila, columna] con la posición de "B", o null si no se encuentra
+ * @returns {number[]|null} Array [fila, columna] con la posición de B, o null si no se encuentra
  * 
  * @example
  * // Ejemplo de uso:
@@ -612,10 +631,10 @@ function copiarMatriz(matriz) {
  * @description
  * Función utilitaria para:
  * - Localizar rápidamente la posición del carro principal
- * - Verificar si "B" existe en el tablero
+ * - Verificar si B existe en el tablero
  * - Inicializar algoritmos de búsqueda desde la posición correcta
  * 
- * @see buscar_carros Para obtener todos los carros incluyendo "B"
+ * @see buscar_carros Para obtener todos los carros incluyendo B
  */
 function encontrarB(matriz) {
   for (let i = 0; i &lt; matriz.length; i++) {
@@ -656,10 +675,10 @@ function encontrarB(matriz) {
  * 
  * @note
  * Las direcciones detectadas son:
- * - ➡️ derecha (misma fila, columna aumenta)
- * - ⬅️ izquierda (misma fila, columna disminuye)  
- * - ⬇️ abajo (misma columna, fila aumenta)
- * - ⬆️ arriba (misma columna, fila disminuye)
+ * - derecha (misma fila, columna aumenta)
+ * - izquierda (misma fila, columna disminuye)  
+ * - abajo (misma columna, fila aumenta)
+ * - arriba (misma columna, fila disminuye)
  */
 function describirMovimiento(anterior, actual) {
   let antes = null, despues = null, simbolo = null;
@@ -734,7 +753,7 @@ function describirMovimiento(anterior, actual) {
  * 
  * @note
  * Características de esta implementación:
- * - Prioriza el carro "B" (siempre primero en la lista de carros)
+ * - Prioriza el carro B (siempre primero en la lista de carros)
  * - Usa copias profundas para evitar efectos secundarios
  * - Maneja tanto carros horizontales (B, >) como verticales (v)
  * - El parámetro `[...camino]` crea copias para ramas independientes
@@ -751,7 +770,7 @@ function describirMovimiento(anterior, actual) {
  * Puede sufrir de "depth limit" en puzzles complejos debido a la recursión
  */
 function DFS(matriz, x, y, camino = [], visitados = new Set()) {
-  // Evitar bucles infinitos - detectar estados repetidos
+  // Evitar bucles infinitos detecta estados repetidos
   const hash = JSON.stringify(matriz);
   if (visitados.has(hash)) {
     return null; 
@@ -759,7 +778,7 @@ function DFS(matriz, x, y, camino = [], visitados = new Set()) {
 
   visitados.add(hash);
 
-  // Verificar condición de victoria: si el carro B llego a la salida
+  // Verifica si el carro B llego a la salida
   const carros = buscar_carros(matriz);
   if (carros[0][1] == x &amp;&amp; carros[0][2] == y) {
     camino.push(copiarMatriz(matriz)); // guardar el ultimo estado tambien
@@ -771,12 +790,12 @@ function DFS(matriz, x, y, camino = [], visitados = new Set()) {
   // Explorar todos los movimientos posibles para cada carro
   for (carro of carros) {
     if (carro[0] == "B" || carro[0] == ">") {
-      // Carros horizontales: probar izquierda y derecha
+      // Carros horizontales probar izquierda y derecha
       const matrizIzq = mover_izquierda(copiarMatriz(matriz), carro[1], carro[2]);
       const matrizDer = mover_derecha(copiarMatriz(matriz), carro[1], carro[2]);
       
       if (JSON.stringify(matrizIzq) !== JSON.stringify(matriz)) {
-        const res = DFS(matrizIzq, x, y, [...camino], visitados); // Usar spread para copiar el camino
+        const res = DFS(matrizIzq, x, y, [...camino], visitados); //copiar el camino
         if (res)
            return res;
       }
@@ -787,7 +806,7 @@ function DFS(matriz, x, y, camino = [], visitados = new Set()) {
       }
     } 
     else {
-      // Carros verticales: probar arriba y abajo
+      // Carros verticales probar arriba y abajo
       const matrizArr = mover_arriba(copiarMatriz(matriz), carro[1], carro[2]);
       const matrizAba = mover_abajo(copiarMatriz(matriz), carro[1], carro[2]);
       
@@ -901,7 +920,7 @@ function Aestrella(matriz, x, y) {
   const listaAbierta = [];
   const listaCerrada = new Set();
 
-  // Inicializar con estado inicial: [matriz, f, g, h, camino]
+  // Inicializar con estado inicial [matriz, f, g, h, camino]
   listaAbierta.push([copiarMatriz(matriz), 0, 0, 0, [copiarMatriz(matriz)]]);
 
   while (listaAbierta.length != 0) {
@@ -918,7 +937,7 @@ function Aestrella(matriz, x, y) {
         pos = copiarMatriz(listaAbierta[i][0]);
         g = listaAbierta[i][2];
         indiceMejor = i;
-        caminoActual = listaAbierta[i][4]; // recuperamos el camino que llevó hasta aquí
+        caminoActual = listaAbierta[i][4]; // recupera el camino que llevó hasta ahí
       }
     }
 
@@ -947,7 +966,7 @@ function Aestrella(matriz, x, y) {
             listaCerrada.add(JSON.stringify(matrizIzq)); 
             let heuristica = 1;
             let [i, j] = encontrarB(matrizIzq);
-            // Calcular heurística: distancia horizontal hasta Y
+            // Calcular heurística distancia horizontal hasta Y
             while (j &lt; y) {
               if (matrizIzq[i][j] == ".") {
                 heuristica += 1;
@@ -1118,7 +1137,7 @@ function BFS(matriz, x, y) {
   let estadosPorNivel = [1]; // Contador de estados por nivel
 
   while (cola.length > 0) {
-    const actual = cola.shift(); // FIFO - primero en entrar, primero en salir
+    const actual = cola.shift(); // FIFO
     const matrizActual = actual.matriz;
     const caminoActual = actual.camino;
     const profundidadActual = actual.profundidad;
@@ -1153,7 +1172,7 @@ function BFS(matriz, x, y) {
       }
     }
 
-    // Control de niveles explorados (para métricas)
+    // Control de niveles explorados métricas
     if (estadosPorNivel[nivelesExplorados] === 0) {
       nivelesExplorados++;
       estadosPorNivel[nivelesExplorados] = cola.length;
@@ -1161,7 +1180,7 @@ function BFS(matriz, x, y) {
       estadosPorNivel[nivelesExplorados]--;
     }
 
-    // Límite de seguridad para evitar desbordamiento de memoria
+    // Límite para evitar desbordamiento de memoria
     if (visitados.size > 50000) {
       console.log("BFS: Límite de estados alcanzado");
       break;
@@ -1238,6 +1257,123 @@ function generarTodosLosMovimientos(matriz) {
 }
 
 /**
+ * Función de backtracking para resolver el problema del traffic jam.
+ * Explora sistemáticamente todos los movimientos posibles hasta encontrar la solución óptima.
+ * 
+ * @function
+ * @name Backtracking
+ * @param {Array.&lt;Array.&lt;string>>} matriz - Matriz representando el estado actual del tablero
+ * @param {number} x - Coordenada X (fila) de la salida objetivo
+ * @param {number} y - Coordenada Y (columna) de la salida objetivo  
+ * @param {Array.&lt;Array.&lt;Array.&lt;string>>>} [caminoActual=[]] - Camino de estados visitados hasta el momento
+ * @param {Set} [visitados=new Set()] - Conjunto de estados ya explorados (hashed)
+ * @returns {void}
+ * 
+ * @example
+ * // Uso básico:
+ * Backtracking(matrizInicial, 2, 5, [], new Set());
+ * 
+ * @description
+ * Esta función implementa un algoritmo de backtracking que:
+ * 1. Cuenta cada estado explorado globalmente
+ * 2. Evita ciclos mediante un conjunto de estados visitados
+ * 3. Poda ramas que exceden la mejor solución encontrada
+ * 4. Encuentra la solución con mínimo número de movimientos
+ * 5. Limita la profundidad máxima para evitar stack overflow
+ * 
+ * @see encontrarB
+ * @see buscar_carros
+ * @see mover_derecha
+ * @see mover_izquierda  
+ * @see mover_abajo
+ * @see mover_arriba
+ * @see copiarMatriz
+ * 
+ */
+function Backtracking(matriz, x, y, caminoActual = [], visitados = new Set()) {
+    // Contar este estado en el contador global
+    contadorEstadosBacktracking++; 
+    
+    // evitar ciclos
+    let hash = JSON.stringify(matriz);
+    if (visitados.has(hash)) {
+        return;
+    }
+    visitados.add(hash);
+    
+    //si ya hay una solución mejor para
+    if (caminoActual.length >= minMovimientos) {
+        return;
+    }
+    
+    // Condición si el carro B llegó a la salida
+    let carroB = encontrarB(matriz);
+    if (carroB[0] == x &amp;&amp; carroB[1] == y) {
+        let caminoFinal = [...caminoActual, copiarMatriz(matriz)];
+        let numMovimientos = caminoFinal.length - 1;
+        
+        // Actualizar la mejor solución encontrada
+        if (numMovimientos &lt; minMovimientos) {
+            minMovimientos = numMovimientos;
+            mejorCamino = caminoFinal;
+            console.log("¡Encontré una solución con " + numMovimientos + " movimientos!");
+        }
+        return;
+    }
+    
+    // Límite de profundidad para evitar overflow
+    if (caminoActual.length > 100) {
+        return;
+    }
+    
+    // Agregar este estado al camino actual
+    caminoActual.push(copiarMatriz(matriz));
+    
+    // Probar mover todos los carros en todas direcciones posibles
+    let carros = buscar_carros(matriz);
+    
+    for (let i = 0; i &lt; carros.length; i++) {
+        let carro = carros[i];
+        let tipo = carro[0];
+        let fila = carro[1];
+        let columna = carro[2];
+        
+        // Movimientos para carros horizontales 
+        if (tipo == "B" || tipo == ">") {
+            // Intentar mover a la derecha
+            let matrizDer = mover_derecha(copiarMatriz(matriz), fila, columna);
+            if (JSON.stringify(matrizDer) != JSON.stringify(matriz)) {
+                Backtracking(matrizDer, x, y, [...caminoActual], new Set(visitados));
+            }
+            
+            // Intentar mover a la izquierda  
+            let matrizIzq = mover_izquierda(copiarMatriz(matriz), fila, columna);
+            if (JSON.stringify(matrizIzq) != JSON.stringify(matriz)) {
+                Backtracking(matrizIzq, x, y, [...caminoActual], new Set(visitados));
+            }
+        }
+        
+        // Movimientos para carros verticales 
+        if (tipo == "v") {
+            // Intentar mover abajo
+            let matrizAbajo = mover_abajo(copiarMatriz(matriz), fila, columna);
+            if (JSON.stringify(matrizAbajo) != JSON.stringify(matriz)) {
+                Backtracking(matrizAbajo, x, y, [...caminoActual], new Set(visitados));
+            }
+            
+            // Intentar mover arriba
+            let matrizArriba = mover_arriba(copiarMatriz(matriz), fila, columna);
+            if (JSON.stringify(matrizArriba) != JSON.stringify(matriz)) {
+                Backtracking(matrizArriba, x, y, [...caminoActual], new Set(visitados));
+            }
+        }
+    }
+    
+    
+    caminoActual.pop();
+}
+
+/**
  * Anima visualmente la secuencia de pasos de la solución encontrada.
  * Muestra cada estado del camino con una descripción textual de los movimientos.
  * 
@@ -1296,6 +1432,8 @@ function animarCamino(camino, tiempo, estados, movimientos) {
   paso();
 }
 
+
+
 /**
  * Event listener para el botón de resolver.
  * Inicia el proceso de resolución cuando se hace clic en el botón.
@@ -1330,13 +1468,13 @@ document.getElementById("resolverBtn").addEventListener("click", iniciar);
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#Aestrella">Aestrella</a></li><li><a href="global.html#BFS">BFS</a></li><li><a href="global.html#DFS">DFS</a></li><li><a href="global.html#animarCamino">animarCamino</a></li><li><a href="global.html#buscar_carros">buscar_carros</a></li><li><a href="global.html#copiarMatriz">copiarMatriz</a></li><li><a href="global.html#describirMovimiento">describirMovimiento</a></li><li><a href="global.html#encontrar">encontrar</a></li><li><a href="global.html#encontrarB">encontrarB</a></li><li><a href="global.html#generarTodosLosMovimientos">generarTodosLosMovimientos</a></li><li><a href="global.html#iniciar">iniciar</a></li><li><a href="global.html#matrizAHash">matrizAHash</a></li><li><a href="global.html#mostrarMatriz">mostrarMatriz</a></li><li><a href="global.html#mover_abajo">mover_abajo</a></li><li><a href="global.html#mover_arriba">mover_arriba</a></li><li><a href="global.html#mover_derecha">mover_derecha</a></li><li><a href="global.html#mover_izquierda">mover_izquierda</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#Aestrella">Aestrella</a></li><li><a href="global.html#BFS">BFS</a></li><li><a href="global.html#Backtracking">Backtracking</a></li><li><a href="global.html#DFS">DFS</a></li><li><a href="global.html#animarCamino">animarCamino</a></li><li><a href="global.html#buscar_carros">buscar_carros</a></li><li><a href="global.html#copiarMatriz">copiarMatriz</a></li><li><a href="global.html#describirMovimiento">describirMovimiento</a></li><li><a href="global.html#encontrar">encontrar</a></li><li><a href="global.html#encontrarB">encontrarB</a></li><li><a href="global.html#generarTodosLosMovimientos">generarTodosLosMovimientos</a></li><li><a href="global.html#iniciar">iniciar</a></li><li><a href="global.html#matrizAHash">matrizAHash</a></li><li><a href="global.html#mostrarMatriz">mostrarMatriz</a></li><li><a href="global.html#mover_abajo">mover_abajo</a></li><li><a href="global.html#mover_arriba">mover_arriba</a></li><li><a href="global.html#mover_derecha">mover_derecha</a></li><li><a href="global.html#mover_izquierda">mover_izquierda</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.5</a> on Thu Oct 23 2025 15:10:19 GMT-0600 (hora estándar central)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.5</a> on Thu Oct 23 2025 17:48:08 GMT-0600 (hora estándar central)
 </footer>
 
 <script> prettyPrint(); </script>
