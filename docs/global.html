@@ -1,0 +1,3732 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Global</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Global</h1>
+
+    
+
+
+
+
+<section>
+
+<header>
+    
+        <h2></h2>
+        
+    
+</header>
+
+<article>
+    <div class="container-overview">
+    
+        
+
+        
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+        
+    
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <h3 class="subsection-title">Methods</h3>
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="Aestrella"><span class="type-signature"></span>Aestrella<span class="signature">(matriz, x, y)</span><span class="type-signature"> &rarr; {Array|null}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Heurística implementada:- Calcula la distancia horizontal desde "B" hasta la columna objetivo Y- Penaliza celdas ocupadas (heurística += 2) vs celdas vacías (heurística += 1)- Asume que el camino más directo es moverse horizontalmente hacia la salida
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>matriz</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array.&lt;Array.&lt;string>></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Estado inicial del tablero</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>x</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Coordenada X de la posición de salida objetivo</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>y</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Coordenada Y de la posición de salida objetivo</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="script.js.html">script.js</a>, <a href="script.js.html#line813">line 813</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+    <dt class="tag-see">See:</dt>
+    <dd class="tag-see">
+        <ul>
+            <li>matrizAHash Para la detección de estados duplicados</li>
+        
+            <li>buscar_carros Para obtener carros del tablero</li>
+        
+            <li>encontrarB Para localizar el carro principal</li>
+        </ul>
+    </dd>
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Array de matrices representando el camino solución óptimo, o null si no se encuentra
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Array</span>
+|
+
+<span class="param-type">null</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>// Ejemplo de uso:const matrizInicial = [  [".", "B", "-", "."],  [".", ".", ".", "."],  [".", "v", ".", "."]];const solucion = Aestrella(matrizInicial, 0, 3);if (solucion) {  console.log("Solución óptima encontrada con", solucion.length, "movimientos");}</code></pre>
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="BFS"><span class="type-signature"></span>BFS<span class="signature">(matriz, x, y)</span><span class="type-signature"> &rarr; {Object|null|Array|number|number}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Estructura del estado en la cola:- matriz: Estado actual del tablero- camino: Secuencia completa de estados desde el inicio- profundidad: Número de movimientos realizados hasta este estado
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>matriz</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array.&lt;Array.&lt;string>></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Estado inicial del tablero</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>x</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Coordenada X de la posición de salida objetivo</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>y</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Coordenada Y de la posición de salida objetivo</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="script.js.html">script.js</a>, <a href="script.js.html#line1029">line 1029</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+    <dt class="tag-see">See:</dt>
+    <dd class="tag-see">
+        <ul>
+            <li>generarTodosLosMovimientos Para la generación de estados sucesores</li>
+        
+            <li>matrizAHash Para detección de estados duplicados</li>
+        </ul>
+    </dd>
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+<ul>
+        <li>
+<div class="param-desc">
+    Objeto con la solución o null si no se encuentra
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Object</span>
+|
+
+<span class="param-type">null</span>
+
+
+    </dd>
+</dl>
+</li>
+    
+        <li>
+<div class="param-desc">
+    return.camino - Secuencia de matrices del camino solución
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Array</span>
+
+
+    </dd>
+</dl>
+</li>
+    
+        <li>
+<div class="param-desc">
+    return.estados - Total de estados explorados
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">number</span>
+
+
+    </dd>
+</dl>
+</li>
+    
+        <li>
+<div class="param-desc">
+    return.profundidad - Número de movimientos de la solución
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">number</span>
+
+
+    </dd>
+</dl>
+</li>
+    </ul>
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>// Ejemplo de uso:const matrizInicial = [  [".", "B", "-", "."],  [".", ".", ".", "."]];const resultado = BFS(matrizInicial, 0, 3);if (resultado) {  console.log("Solución en", resultado.profundidad, "movimientos");  console.log("Estados explorados:", resultado.estados);}</code></pre>
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="DFS"><span class="type-signature"></span>DFS<span class="signature">(matriz, x, y, camino<span class="signature-attributes">opt</span>, visitados<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Array|null}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Algoritmo DFS implementado:1. **Evitar ciclos**: Usa hashing de matrices para detectar estados repetidos2. **Condición de término**: Verifica si el carro "B" llegó a la salida (x,y)3. **Exploración recursiva**: Para cada carro, prueba todos los movimientos posibles4. **Backtracking**: Si un camino no lleva a solución, retrocede y prueba alternativas
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>matriz</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array.&lt;Array.&lt;string>></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">Estado actual del tablero</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>x</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">Coordenada X de la posición de salida objetivo</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>y</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">Coordenada Y de la posición de salida objetivo</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>camino</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    []
+                
+                </td>
+            
+
+            <td class="description last">Array que almacena la secuencia de estados del tablero hacia la solución</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>visitados</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Set</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    new Set()
+                
+                </td>
+            
+
+            <td class="description last">Conjunto de estados ya visitados para evitar ciclos</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="script.js.html">script.js</a>, <a href="script.js.html#line673">line 673</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+    <dt class="tag-see">See:</dt>
+    <dd class="tag-see">
+        <ul>
+            <li>buscar_carros Para obtener la lista de carros ordenada</li>
+        
+            <li>copiarMatriz Para crear copias independientes del estado</li>
+        
+            <li>mover_izquierda, mover_derecha, mover_arriba, mover_abajo Para los operadores de movimiento</li>
+        </ul>
+    </dd>
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Throws:</h5>
+
+        
+
+<dl>
+    <dt>
+        <div class="param-desc">
+        Puede producir error de pila si el árbol de búsqueda es muy profundo
+        </div>
+    </dt>
+    <dd></dd>
+    <dt>
+        <dl>
+            <dt>
+                Type
+            </dt>
+            <dd>
+                
+<span class="param-type">Error</span>
+
+
+            </dd>
+        </dl>
+    </dt>
+    <dd></dd>
+</dl>
+
+
+    
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Array de matrices representando el camino solución, o null si no se encuentra
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Array</span>
+|
+
+<span class="param-type">null</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>// Ejemplo de uso:const matrizInicial = [  [".", "B", "-", "."],  [".", ".", ".", "."],  [".", "v", ".", "."]];const solucion = DFS(matrizInicial, 0, 3, [], new Set());if (solucion) {  console.log("Solución encontrada con", solucion.length, "movimientos");}</code></pre>
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="animarCamino"><span class="type-signature"></span>animarCamino<span class="signature">(camino, tiempo, estados, movimientos)</span><span class="type-signature"> &rarr; {void}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Proceso de animación:1. Muestra cada estado del camino con intervalo de 400ms2. Describe cada movimiento usando describirMovimiento()3. Actualiza la interfaz de usuario con métricas finales4. Proporciona feedback visual del progreso
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>camino</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array.&lt;Array.&lt;Array.&lt;string>>></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Array de matrices representando la secuencia solución</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>tiempo</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Tiempo total de ejecución del algoritmo en milisegundos</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>estados</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Número total de estados explorados</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>movimientos</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Número de movimientos de la solución</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="script.js.html">script.js</a>, <a href="script.js.html#line1212">line 1212</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+    <dt class="tag-see">See:</dt>
+    <dd class="tag-see">
+        <ul>
+            <li>describirMovimiento Para generar descripciones legibles de cada movimiento</li>
+        
+            <li>mostrarMatriz Para la visualización del tablero en cada paso</li>
+        </ul>
+    </dd>
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">void</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>// Ejemplo de uso:const camino = [matriz1, matriz2, matriz3];animarCamino(camino, 1500, 250, 3);</code></pre>
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="buscar_carros"><span class="type-signature"></span>buscar_carros<span class="signature">(matriz, carros<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Array}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Proceso de la función:1. Recorre toda la matriz buscando cabezas de carro (">", "v", "B")2. Almacena cada carro como [símbolo, fila, columna]3. Reordena el array para que "B" esté siempre en la posición 04. Retorna el array ordenado para procesamiento posterior
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>matriz</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array.&lt;Array.&lt;string>></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">Matriz del tablero a analizar</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>carros</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array</span>
+|
+
+<span class="param-type">null</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    null
+                
+                </td>
+            
+
+            <td class="description last">Array opcional para acumular carros (uso interno en recursión)</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="script.js.html">script.js</a>, <a href="script.js.html#line482">line 482</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Array de carros ordenado con "B" siempre en primera posición
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Array</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>// Ejemplo de uso:const matriz = [  [".", ">", ".", "."],  ["B", "-", ".", "."],  [".", "v", ".", "."]];const carros = buscar_carros(matriz);// Resultado: [["B", 1, 0], [">", 0, 1], ["v", 2, 1]]</code></pre>
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="copiarMatriz"><span class="type-signature"></span>copiarMatriz<span class="signature">(matriz)</span><span class="type-signature"> &rarr; {Array.&lt;Array.&lt;string>>}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Esta función es crucial para:- Mantener el estado original durante la exploración de algoritmos- Evitar efectos secundarios en funciones que modifican matrices- Permitir backtracking en algoritmos de búsqueda
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>matriz</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array.&lt;Array.&lt;string>></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Matriz original a copiar</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="script.js.html">script.js</a>, <a href="script.js.html#line537">line 537</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Nueva matriz con los mismos valores pero independiente en memoria
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Array.&lt;Array.&lt;string>></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>// Ejemplo de uso:const original = [[".", ">"], ["B", "."]];const copia = copiarMatriz(original);copia[0][1] = "v"; // Esto NO afecta a la matriz original</code></pre>
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="describirMovimiento"><span class="type-signature"></span>describirMovimiento<span class="signature">(anterior, actual)</span><span class="type-signature"> &rarr; {string|string}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Algoritmo de detección:1. Encuentra las celdas que cambiaron entre ambas matrices2. Identifica la cabeza del carro antes y después del movimiento3. Determina la dirección comparando coordenadas4. Genera descripción con emojis para mejor legibilidad
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>anterior</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array.&lt;Array.&lt;string>></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Estado anterior del tablero</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>actual</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array.&lt;Array.&lt;string>></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Estado actual del tablero después del movimiento</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="script.js.html">script.js</a>, <a href="script.js.html#line603">line 603</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+<ul>
+        <li>
+<div class="param-desc">
+    Descripción textual del movimiento con emojis y coordenadas
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">string</span>
+
+
+    </dd>
+</dl>
+</li>
+    
+        <li>
+<div class="param-desc">
+    Descripción en formato: "🚗 Carro {símbolo} en posición ({x},{y}) se movió hacia {dirección}"
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">string</span>
+
+
+    </dd>
+</dl>
+</li>
+    </ul>
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>// Ejemplo de uso:const anterior = [[".", ">", "."], [".", ".", "."]];const actual = [[".", ".", ">"], [".", ".", "."]];const descripcion = describirMovimiento(anterior, actual);// Retorna: "🚗 Carro > en posición (0,2) se movió hacia ➡️ derecha"</code></pre>
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="encontrar"><span class="type-signature"></span>encontrar<span class="signature">(matriz, x, y)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    La salida es válida solo si:- Las coordenadas están dentro de los límites del tablero- Existe un carro "B" en la matriz- La posición (x,y) está en el borde y alineada con "B" (misma fila o columna)
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>matriz</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array.&lt;Array.&lt;string>></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Matriz del tablero</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>x</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Coordenada X de la posición de salida</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>y</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Coordenada Y de la posición de salida</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="script.js.html">script.js</a>, <a href="script.js.html#line166">line 166</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    True si la salida está alineada con "B" en los bordes, false en caso contrario
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">boolean</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>// Ejemplo de uso:const matriz = [  ["B", ">", ".", "."],  [".", ".", ".", "."],  [".", ".", ".", "."]];encontrar(matriz, 0, 0); // Returns true (salida válida)encontrar(matriz, 1, 0); // Returns false (salida no alineada)</code></pre>
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="encontrarB"><span class="type-signature"></span>encontrarB<span class="signature">(matriz)</span><span class="type-signature"> &rarr; {Array.&lt;number>|null}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Función utilitaria para:- Localizar rápidamente la posición del carro principal- Verificar si "B" existe en el tablero- Inicializar algoritmos de búsqueda desde la posición correcta
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>matriz</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array.&lt;Array.&lt;string>></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Matriz del tablero donde buscar</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="script.js.html">script.js</a>, <a href="script.js.html#line567">line 567</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+    <dt class="tag-see">See:</dt>
+    <dd class="tag-see">
+        <ul>
+            <li>buscar_carros Para obtener todos los carros incluyendo "B"</li>
+        </ul>
+    </dd>
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Array [fila, columna] con la posición de "B", o null si no se encuentra
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Array.&lt;number></span>
+|
+
+<span class="param-type">null</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>// Ejemplo de uso:const matriz = [  [".", ".", "."],  ["B", "-", "."],  [".", ".", "."]];const posB = encontrarB(matriz); // Retorna [1, 0]</code></pre>
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="generarTodosLosMovimientos"><span class="type-signature"></span>generarTodosLosMovimientos<span class="signature">(matriz)</span><span class="type-signature"> &rarr; {Array.&lt;Array.&lt;Array.&lt;string>>>}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Proceso de generación de movimientos:1. Obtiene todos los carros del tablero usando buscar_carros()2. Para cada carro, prueba todas las direcciones posibles:   - Carros horizontales (B, >): izquierda y derecha   - Carros verticales (v): arriba y abajo3. Filtra solo los movimientos que realmente cambian el tablero
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>matriz</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array.&lt;Array.&lt;string>></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Estado actual del tablero</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="script.js.html">script.js</a>, <a href="script.js.html#line1147">line 1147</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+    <dt class="tag-see">See:</dt>
+    <dd class="tag-see">
+        <ul>
+            <li>buscar_carros Para identificar los carros en el tablero</li>
+        
+            <li>mover_derecha, mover_izquierda, mover_arriba, mover_abajo Para los operadores de movimiento</li>
+        </ul>
+    </dd>
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Array de matrices representando todos los estados sucesores válidos
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Array.&lt;Array.&lt;Array.&lt;string>>></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>// Ejemplo de uso:const matriz = [  [".", ">", "."],  ["B", "-", "."]];const movimientos = generarTodosLosMovimientos(matriz);// Retorna array con todas las matrices resultantes de movimientos válidos</code></pre>
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="iniciar"><span class="type-signature"></span>iniciar<span class="signature">()</span><span class="type-signature"> &rarr; {void}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Flujo de la función:1. Obtiene y valida entradas del usuario2. Parsea y crea la matriz del tablero3. Valida restricciones de tamaño (máximo 12×12)4. Ejecuta el algoritmo seleccionado5. Calcula métricas de rendimiento6. Muestra resultados y anima el camino encontrado
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="script.js.html">script.js</a>, <a href="script.js.html#line1">line 1</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+<h5>Requires:</h5>
+<ul>
+    <li>module:DFS</li>
+
+    <li>module:BFS</li>
+
+    <li>module:Aestrella</li>
+
+    <li>module:mostrarMatriz</li>
+
+    <li>module:animarCamino</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+<h5>Throws:</h5>
+
+        
+
+<dl>
+    <dt>
+        <div class="param-desc">
+        Si el algoritmo seleccionado no es reconocido
+        </div>
+    </dt>
+    <dd></dd>
+    <dt>
+        <dl>
+            <dt>
+                Type
+            </dt>
+            <dd>
+                
+<span class="param-type">Error</span>
+
+
+            </dd>
+        </dl>
+    </dt>
+    <dd></dd>
+</dl>
+
+
+    
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">void</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>// Ejemplo de uso:// - El usuario ingresa el tablero en textarea#tableroInput// - Selecciona coordenadas de salida en input#salidaInput// - Elige un algoritmo en select#algoritmo// - Llama a iniciar() para ejecutar la búsquedainiciar();</code></pre>
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="matrizAHash"><span class="type-signature"></span>matrizAHash<span class="signature">(m)</span><span class="type-signature"> &rarr; {string}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Función utilitaria para:- Comparación eficiente de estados del tablero- Detección de estados repetidos en búsquedas- Uso en conjuntos (Set) para verificación de visitados
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>m</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array.&lt;Array.&lt;string>></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Matriz a convertir en hash</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="script.js.html">script.js</a>, <a href="script.js.html#line787">line 787</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+    <dt class="tag-see">See:</dt>
+    <dd class="tag-see">
+        <ul>
+            <li>Aestrella Para el uso principal en el algoritmo A*</li>
+        </ul>
+    </dd>
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Representación en string de la matriz
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">string</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>// Ejemplo de uso:const matriz = [[".", "B"], [">", "."]];const hash = matrizAHash(matriz); // Retorna "[[".","B"],[">","."]]"</code></pre>
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="mostrarMatriz"><span class="type-signature"></span>mostrarMatriz<span class="signature">(matriz)</span><span class="type-signature"> &rarr; {void}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Crea una tabla HTML donde cada celda tiene una clase CSS específica:- "carroB" para el carro principal (B)- "carroH" para carros horizontales (>, -)- "carroV" para carros verticales (v, |)- "vacio" para celdas vacías (.)
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>matriz</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array.&lt;Array.&lt;string>></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Matriz bidimensional que representa el tablero del juego</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="script.js.html">script.js</a>, <a href="script.js.html#line118">line 118</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">void</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>// Ejemplo de uso:const miMatriz = [  [".", ">", "-", "."],  [".", "B", ".", "."],  [".", "v", "|", "."]];mostrarMatriz(miMatriz);</code></pre>
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="mover_abajo"><span class="type-signature"></span>mover_abajo<span class="signature">(matriz, x, y)</span><span class="type-signature"> &rarr; {Array.&lt;Array.&lt;string>>}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Lógica del movimiento hacia abajo:1. Verifica que la celda (x,y) contenga "v" (cabeza de carro vertical)2. Verifica que haya espacio abajo (x+1 dentro de límites)3. Verifica que la celda abajo esté vacía (".")4. Mueve la cabeza a (x+1,y) y convierte la posición original a "|"5. Busca el final del carro hacia arriba y limpia la última posición
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>matriz</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array.&lt;Array.&lt;string>></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Matriz del tablero</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>x</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Coordenada X de la cabeza del carro vertical</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>y</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Coordenada Y de la cabeza del carro vertical</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="script.js.html">script.js</a>, <a href="script.js.html#line360">line 360</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+    <dt class="tag-see">See:</dt>
+    <dd class="tag-see">
+        <ul>
+            <li>mover_arriba Para el movimiento en dirección opuesta</li>
+        </ul>
+    </dd>
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    La matriz modificada después del movimiento, o la matriz original si no se puede mover
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Array.&lt;Array.&lt;string>></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>// Ejemplo de uso:const matriz = [  [".", ".", ".", "."],  [".", "v", ".", "."],  [".", "|", ".", "."],  [".", ".", ".", "."]];mover_abajo(matriz, 1, 1); // Mueve el carro vertical hacia abajo</code></pre>
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="mover_arriba"><span class="type-signature"></span>mover_arriba<span class="signature">(matriz, x, y)</span><span class="type-signature"> &rarr; {Array.&lt;Array.&lt;string>>}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Lógica del movimiento hacia arriba:1. Verifica que la celda (x,y) contenga "v" (cabeza de carro vertical)2. Busca el final del carro hacia arriba (posición disponible)3. Verifica que la posición encontrada esté vacía (".")4. Mueve todo el carro: nueva cabeza en (k-1,y), cuerpo en posiciones intermedias5. Limpia la posición anterior de la cabeza
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>matriz</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array.&lt;Array.&lt;string>></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Matriz del tablero</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>x</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Coordenada X de la cabeza del carro vertical</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>y</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Coordenada Y de la cabeza del carro vertical</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="script.js.html">script.js</a>, <a href="script.js.html#line417">line 417</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+    <dt class="tag-see">See:</dt>
+    <dd class="tag-see">
+        <ul>
+            <li>mover_abajo Para el movimiento en dirección opuesta</li>
+        </ul>
+    </dd>
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    La matriz modificada después del movimiento, o la matriz original si no se puede mover
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Array.&lt;Array.&lt;string>></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>// Ejemplo de uso:const matriz = [  [".", ".", ".", "."],  [".", "v", ".", "."],  [".", "|", ".", "."],  [".", ".", ".", "."]];mover_arriba(matriz, 1, 1); // Mueve el carro vertical hacia arriba</code></pre>
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="mover_derecha"><span class="type-signature"></span>mover_derecha<span class="signature">(matriz, x, y)</span><span class="type-signature"> &rarr; {Array.&lt;Array.&lt;string>>}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Lógica del movimiento:1. Verifica que la cabeza sea ">" o "B"2. Verifica que haya espacio a la derecha3. Si la celda derecha está vacía (".", mueve la cabeza4. Actualiza la cola del carro (convierte "-" a ".")5. Mantiene la integridad del carro horizontal
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>matriz</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array.&lt;Array.&lt;string>></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Matriz del tablero</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>x</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Coordenada X de la cabeza del carro</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>y</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Coordenada Y de la cabeza del carro</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="script.js.html">script.js</a>, <a href="script.js.html#line213">line 213</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    La matriz modificada después del movimiento
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Array.&lt;Array.&lt;string>></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>// Ejemplo de uso:const matriz = [  [".", ">", "-", "."],  [".", ".", ".", "."]];mover_derecha(matriz, 0, 1); // Mueve el carro a la derecha</code></pre>
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="mover_izquierda"><span class="type-signature"></span>mover_izquierda<span class="signature">(matriz, x, y)</span><span class="type-signature"> &rarr; {Array.&lt;Array.&lt;string>>}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Lógica del movimiento:1. Verifica que la cabeza sea ">" o "B" y que haya espacio para moverse2. Busca la posición disponible a la izquierda3. Mueve la cabeza y actualiza la cola4. Mantiene la estructura del carro horizontal
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>matriz</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array.&lt;Array.&lt;string>></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Matriz del tablero</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>x</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Coordenada X de la cabeza del carro</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>y</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Coordenada Y de la cabeza del carro</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="script.js.html">script.js</a>, <a href="script.js.html#line288">line 288</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    La matriz modificada después del movimiento
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Array.&lt;Array.&lt;string>></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>// Ejemplo de uso:const matriz = [  [".", ">", "-", "."],  [".", ".", ".", "."]];mover_izquierda(matriz, 0, 1); // Mueve el carro a la izquierda</code></pre>
+
+
+
+        
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#Aestrella">Aestrella</a></li><li><a href="global.html#BFS">BFS</a></li><li><a href="global.html#DFS">DFS</a></li><li><a href="global.html#animarCamino">animarCamino</a></li><li><a href="global.html#buscar_carros">buscar_carros</a></li><li><a href="global.html#copiarMatriz">copiarMatriz</a></li><li><a href="global.html#describirMovimiento">describirMovimiento</a></li><li><a href="global.html#encontrar">encontrar</a></li><li><a href="global.html#encontrarB">encontrarB</a></li><li><a href="global.html#generarTodosLosMovimientos">generarTodosLosMovimientos</a></li><li><a href="global.html#iniciar">iniciar</a></li><li><a href="global.html#matrizAHash">matrizAHash</a></li><li><a href="global.html#mostrarMatriz">mostrarMatriz</a></li><li><a href="global.html#mover_abajo">mover_abajo</a></li><li><a href="global.html#mover_arriba">mover_arriba</a></li><li><a href="global.html#mover_derecha">mover_derecha</a></li><li><a href="global.html#mover_izquierda">mover_izquierda</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.5</a> on Thu Oct 23 2025 15:10:19 GMT-0600 (hora estándar central)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
