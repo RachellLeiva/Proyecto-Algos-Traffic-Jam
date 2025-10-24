@@ -3,34 +3,32 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>🚗 Traffic Jam Solver</title>
+  <title> Traffic Jam </title>
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
 
   <header>
-    <h1>🚦 Traffic Jam Solver</h1>
-    <p>Simulador de <strong>Traffic Jam</strong> con <em>Backtracking</em>, <em>BFS</em>, <em>DFS</em> y <em>A*</em></p>
+    <h1> 🚗Traffic Jam🚗 </h1>
   </header>
 
   <main>
     <!-- Entrada del tablero -->
     <section id="entrada">
-      <h2>🧩 Ingresar tablero</h2>
+      <h2> Ingresar tablero</h2>
       <p>
-        Usa <code>;</code> para separar filas y <code>,</code> para separar columnas.  
         Máximo: <strong>12×12</strong>
       </p>
 
-      <textarea id="tableroInput" rows="6" cols="60" placeholder="-,-,-,>,.,.;.,.,.,.,.,.;v,.,-,B,.,."></textarea>
+      <textarea id="tableroInput" rows="6" cols="60" placeholder="Escribe tu matriz aca :D"></textarea>
 
       <div class="fila">
-        <label for="salidaInput">📤 Coordenadas de salida (x,y):</label>
+        <label for="salidaInput"> Coordenadas de salida (x,y):</label>
         <input type="text" id="salidaInput" placeholder="0,5" />
       </div>
 
       <div class="fila">
-        <label for="algoritmo">🧠 Algoritmo:</label>
+        <label for="algoritmo"> Algoritmo:</label>
         <select id="algoritmo">
           <option value="DFS">DFS</option>
           <option value="Backtracking">Backtracking</option>
@@ -50,13 +48,13 @@
 
     <!-- Secuencia de acciones -->
     <section id="resultado">
-      <h2>📜 Secuencia de acciones</h2>
+      <h2> Secuencia de acciones</h2>
       <div id="acciones"></div>
     </section>
   </main>
 
   <footer>
-    <p>Proyecto 1 – Análisis de Algoritmos – Traffic Jam 🚗</p>
+    <p> 🚗 Análisis de Algoritmos – Traffic Jam 🚗</p>
   </footer>
 
   <script src="script.js"></script>
