@@ -39,7 +39,7 @@
 let mejorCamino = null;        // Almacena la mejor solución encontrada
 let minMovimientos = Infinity; // Guarda el número mínimo de movimientos encontrado
 let contadorEstadosBacktracking = 0; // Cuenta todos los estados explorados en backtracking
-
+let detenerBacktracking = false;
 function iniciar() {
   // Obtener y validar entradas del usuario
   const entrada = document.getElementById("tableroInput").value.trim();
@@ -107,11 +107,20 @@ function iniciar() {
     mejorCamino = null;           
     minMovimientos = Infinity;       
     contadorEstadosBacktracking = 0; 
-    const visitados = new Set();  
+    const visitados = new Set(); 
+    detenerBacktracking = false; 
     
     Backtracking(matriz, x, y, [], visitados);
     camino = mejorCamino;
     estados = contadorEstadosBacktracking; 
+    if (contadorEstadosBacktracking >= 2800000) {
+    console.log("Backtracking alcanzó el límite de estados");
+    if (camino) {
+      console.log("Pero se encontró una solución antes de detenerse");
+    } else {
+      console.log("No se encontró solución dentro del límite");
+    }
+  }
   } else {
     alert(" Algoritmo no reconocido");
     return;
@@ -1269,9 +1278,25 @@ function generarTodosLosMovimientos(matriz) {
  * 
  */
 function Backtracking(matriz, x, y, caminoActual = [], visitados = new Set()) {
-    // Contar este estado en el contador global
-    contadorEstadosBacktracking++; 
-    
+  if (detenerBacktracking) {
+    return;
+  }  
+
+  // para todo
+  if (contadorEstadosBacktracking > 2800000) {
+    console.log("Límite de 2,800,000 estados alcanzado");
+    detenerBacktracking = true; 
+    return;
+  }
+  
+  // deja esta rama
+  if (caminoActual.length > 50) {
+    return;
+  }
+  // Contar este estado en el contador global
+  contadorEstadosBacktracking++; 
+  
+  
     // evitar ciclos
     let hash = JSON.stringify(matriz);
     if (visitados.has(hash)) {
@@ -1439,12 +1464,18 @@ function animarCamino(camino, tiempo, estados, movimientos) {
       i++;
       setTimeout(paso, 400); // Velocidad de animación
     } else {
-      // Mostrar resumen final
-      acciones.textContent +=
-        `\n\n✅ ¡Carro objetivo llegó a la salida!\n\n` +
+      // Resumen final
+      let mensajeFinal = `\n\n✅ ¡Carro objetivo llegó a la salida!\n\n` +
         `⏱ Tiempo: ${tiempo} ms\n` +
         `📊 Estados explorados: ${estados}\n` +
         `🚗 Movimientos: ${movimientos}`;
+      
+      //Aviso de límite
+      if (contadorEstadosBacktracking >= 2800000) {
+        mensajeFinal += `\n\n⚠️ Se alcanzó el límite máximo de 2,800,001 estados`;
+      }
+      
+      acciones.textContent += mensajeFinal;
     }
   }
 
