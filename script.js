@@ -50,8 +50,14 @@ function iniciar() {
 
   // Validación de entrada básica
   if (!entrada || salida.length !== 2) {
-    alert("⚠️ Ingresa el tablero y las coordenadas de salida correctamente");
+    alert(" Ingresa el tablero y las coordenadas de salida correctamente");
     return;
+  }
+
+  const valido = validarTablero(entrada);
+  if (!valido) {
+    console.warn("Entrada inválida, ejecución detenida");
+    return; 
   }
 
   // Crear la matriz a partir del texto de entrada
@@ -67,7 +73,7 @@ function iniciar() {
 
   // Validación de tamaño del tablero 
   if (filas > 12 || columnas > 12) {
-    alert(`⚠️ El tablero es demasiado grande (${filas}×${columnas}). El máximo permitido es 12×12.`);
+    alert(` El tablero es demasiado grande (${filas}×${columnas}). El máximo permitido es 12×12.`);
     return;
   }
 
@@ -107,7 +113,7 @@ function iniciar() {
     camino = mejorCamino;
     estados = contadorEstadosBacktracking; 
   } else {
-    alert("⚠️ Algoritmo no reconocido");
+    alert(" Algoritmo no reconocido");
     return;
   }
 
@@ -1117,8 +1123,8 @@ function BFS(matriz, x, y) {
     // Verificar si encontramos la solución
     const [posBx, posBy] = encontrarB(matrizActual);
     if (posBx === x && posBy === y) {
-      console.log(`✅ BFS encontró solución en profundidad ${profundidadActual}`);
-      console.log(`📊 Niveles explorados: ${nivelesExplorados}`);
+      console.log(` BFS encontró solución en profundidad ${profundidadActual}`);
+      console.log(` Niveles explorados: ${nivelesExplorados}`);
       return {
         camino: caminoActual,
         estados: visitados.size,
@@ -1159,7 +1165,7 @@ function BFS(matriz, x, y) {
     }
   }
   
-  console.log("❌ BFS no encontró solución");
+  console.log(" BFS no encontró solución");
   return null;
 }
 
@@ -1344,6 +1350,47 @@ function Backtracking(matriz, x, y, caminoActual = [], visitados = new Set()) {
     
     caminoActual.pop();
 }
+
+
+
+/**
+ * Valida que el tablero contenga únicamente símbolos permitidos.
+ * Si hay caracteres ilegales, muestra una alerta y detiene la ejecución.
+ *
+ * @function
+ * @name validarTablero
+ * @param {string} entrada - Texto ingresado por el usuario
+ * @returns {boolean} true si la entrada es válida, false si contiene caracteres no permitidos
+ */
+function validarTablero(entrada) {
+  // 🔹 Solo se permiten: ".", "-", "|", ">", "v", "B" y espacios/saltos
+  const regex = /^[.\-\|>vB\s\n\r\t]+$/;
+
+  // Si no cumple el patrón, buscar los caracteres ilegales
+  if (!regex.test(entrada)) {
+    // Extraer y listar los símbolos no permitidos encontrados
+    const ilegales = Array.from(
+      new Set(entrada.replace(/[.\-\|>vB\s\n\r\t]/g, "").split(""))
+    )
+      .filter(c => c.trim() !== "") // eliminar vacíos
+      .join(", ");
+
+    alert(
+      `⚠️ Error: Se encontraron símbolos no permitidos en el tablero.\n\n` +
+      `Solo se permiten los siguientes símbolos:\n` +
+      `.  -  |  >  v  B  (espacios y saltos de línea)\n\n` +
+      `Símbolos detectados: ${ilegales || "—"}`
+    );
+
+    return false; // ❌ detener ejecución
+  }
+
+  return true; // ✅ continuar normalmente
+}
+
+
+
+
 
 /**
  * Anima visualmente la secuencia de pasos de la solución encontrada.
